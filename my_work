@@ -1,0 +1,132 @@
+"""
+my_work.py
+Author: Sonith Riem 
+
+This is a program of a game called: "Take it or Leave it". There is a $1M in one of the suit cases. 
+You can open 6 suitcases in one round. After each round, the bank offer the player an amount. 
+The player can accept an offer or continue playing to get a better offer. 
+
+
+"""
+
+# Function: find_unopen
+#This function find cases that are not opened. 
+def find_unopen(opened, player_case_num):
+    opened_case = 0
+    case_not_opened = 0
+    
+    case_index = 0
+    my_list = []
+    
+    for x in opened:
+        y = opened.index(x,case_index)
+        case_index += 1
+        
+        if x == False:
+            my_list.append(y)
+            
+        if player_case_num in my_list:
+            my_list.remove(player_case_num)
+            
+        if x == True:
+            opened_case += 1
+            
+        if x == False:
+            case_not_opened += 1
+            
+    if (case_not_opened > 2) or (case_not_opened == 0):
+        return -1 
+    
+    if (case_not_opened == 1) or (case_not_opened ==2):      
+        return my_list[0]
+    
+    pass
+
+
+# Function: game_over
+# This function determine if the game is over when all the cases are opened. 
+def game_over(opened, player_case_num):
+    case_index = 0
+    my_list = []
+    for x in opened:
+        y = opened.index(x,case_index)
+        my_list.append(x)
+        case_index += 1
+        
+        if player_case_num == y:
+            my_list.remove(x)
+            
+    if all(my_list) == True:
+        return True
+    else:
+        return False
+    
+    pass
+
+
+# Function: get_options
+#This function finds cases that that not been opened. 
+def get_options(opened, player_case_num):
+    
+    my_list = []
+    case_index = 0
+    
+    for x in opened:
+        y = opened.index(x,case_index)
+        case_index += 1 
+        
+        if x == False:
+            my_list.append(y)
+            
+        if player_case_num in my_list:
+            my_list.remove(player_case_num)
+            
+    return my_list
+
+    pass
+
+
+# Function: largest_unchosen
+#This function finds the largest amount of money that has not been opened yet. 
+def largest_unchosen(cases, opened):
+    
+    case_index = 0
+    my_list = []
+    
+    for x in opened:
+        y = opened.index(x,case_index)
+        case_index += 1
+        
+        if x == False:
+            z = cases[y]
+            my_list.append(z)
+            
+    return max(my_list)
+
+    pass
+
+
+# Function: banker_offer
+#This functions is the amount of money the bank offer each round. 
+def banker_offer(cases, opened):
+    
+    my_list = []
+    case_index = 0
+    
+    for x in opened:
+        if x != True:
+            my_list.append(cases[case_index])
+            case_index += 1
+            cases_left = opened.count(False)
+
+    offer = int(((len(cases) - cases_left)/len(cases)) * (sum(my_list)//len(cases)))
+    
+    return offer
+
+    pass
+
+
+if __name__ == '__main__':
+    import take_it_leave_it
+
+
